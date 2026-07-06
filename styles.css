@@ -899,3 +899,101 @@ p {
     transform: none;
   }
 }
+
+/* v2: GitHub-Pages-Anker, lokale Modus-Bilder und statische Serverdaten */
+.quick-nav {
+  width: min(var(--max), 100%);
+  margin: 10px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-nav a,
+.section-anchor {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  color: var(--shine);
+  background: rgba(5, 2, 0, 0.62);
+  border: 2px solid rgba(253, 175, 18, 0.34);
+  box-shadow: inset 0 -3px 0 rgba(125, 36, 4, 0.72);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.quick-nav a {
+  padding: 8px 10px;
+}
+
+.section-anchor {
+  margin-bottom: 12px;
+  padding: 7px 9px;
+}
+
+.quick-nav a:hover,
+.section-anchor:hover {
+  color: #fff8d7;
+  border-color: var(--gold-2);
+  transform: translateY(-1px);
+}
+
+.status-bar[data-state="partial"] .status-dot {
+  background: var(--gold-2);
+  box-shadow: 0 0 0 4px rgba(253, 175, 18, 0.16), 0 0 18px rgba(253, 175, 18, 0.28);
+  animation: statusPulse 1.6s steps(2, end) infinite;
+}
+
+.section-head code {
+  color: #fff8d7;
+  background: rgba(5, 2, 0, 0.56);
+  border: 2px solid rgba(253, 175, 18, 0.22);
+  padding: 2px 6px;
+}
+
+.mode-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.06) contrast(1.05);
+  transform: scale(1.01);
+  transition: transform 280ms ease, filter 280ms ease;
+}
+
+.mode-card:hover .mode-image {
+  transform: scale(1.055);
+  filter: saturate(1.12) contrast(1.08) brightness(1.03);
+}
+
+.mode-media.has-image::before {
+  opacity: 0;
+}
+
+.mode-media.has-image::after {
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(5, 2, 0, 0.05), rgba(5, 2, 0, 0.72)),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 2px, transparent 2px 8px);
+}
+
+.mode-media.media-fallback .media-label::after {
+  content: " · Platzhalter";
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .quick-nav {
+    gap: 6px;
+  }
+
+  .quick-nav a {
+    flex: 1 1 calc(50% - 6px);
+    justify-content: center;
+  }
+}

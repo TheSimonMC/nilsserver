@@ -1,4 +1,20 @@
-// GitHub Pages kann kein eigenes Node.js-Backend ausführen.
-// Trage hier die URL deiner eigenen Statusroute ein, sobald das Backend separat läuft.
-// Beispiel: window.NILSSERVER_STATUS_API = "https://status.nilsserver.net/api/status";
-window.NILSSERVER_STATUS_API = "";
+// GitHub-Pages-Version ohne eigenes Backend.
+// Spielerzahlen/Status werden aus status.json gelesen.
+// Du kannst status.json später manuell oder über deinen eigenen Workflow aktualisieren.
+window.NILSSERVER_CONFIG = {
+  address: "nilsserver.net",
+  statusSource: "status.json",
+  refreshMs: 30000,
+  statusLabel: "Serverdaten",
+
+  // Fallback, falls status.json nicht erreichbar ist.
+  // Keine erfundenen Spielerzahlen: Werte auf null lassen, bis du echte Daten einträgst.
+  fallbackStatus: {
+    online: null,
+    players: {
+      online: null,
+      max: null
+    },
+    updatedAt: null
+  }
+};

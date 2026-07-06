@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="nilsserver.net ist ein Minecraft-Netzwerk mit Live-Serverstatus, Spielmodi und LabyMod-/Voice-Chat-Empfehlung." />
-  <title>nilsserver.net — Minecraft-Netzwerk</title>
+  <meta name="description" content="NilsServer.net ist ein Minecraft-Netzwerk mit Spielmodi, Serverstatus und LabyMod-/Voice-Chat-Empfehlung." />
+  <title>NilsServer</title>
   <link rel="icon" type="image/png" href="assets/brand/icon.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -17,12 +17,12 @@
     <span class="float-cube cube-d"></span>
   </div>
 
-  <header class="status-shell" aria-label="Live-Serverstatus">
+  <header class="status-shell" id="serverstatus" aria-label="Serverstatus">
     <div class="status-bar" id="serverStatus" data-state="loading">
       <div class="status-brand">
-        <img src="assets/brand/icon.png" alt="nilsserver.net Logo" class="status-logo" width="42" height="42" />
+        <img src="assets/brand/icon.png" alt="NilsServer.net Logo" class="status-logo" width="42" height="42" />
         <div>
-          <span class="eyebrow">Live-Daten</span>
+          <span class="eyebrow" id="statusSourceLabel">Serverdaten</span>
           <strong>Minecraft-Serverstatus</strong>
         </div>
       </div>
@@ -30,7 +30,7 @@
       <div class="status-data" aria-live="polite">
         <div class="status-pill">
           <span class="status-dot" aria-hidden="true"></span>
-          <span id="statusText">Lädt Serverstatus …</span>
+          <span id="statusText">Lädt Serverdaten …</span>
         </div>
         <div class="status-metric">
           <span>Spieler</span>
@@ -41,22 +41,30 @@
           <button class="copy-address" data-copy="nilsserver.net" type="button" aria-label="Serveradresse nilsserver.net kopieren">nilsserver.net</button>
         </div>
         <div class="status-updated">
-          <span>Aktualisiert</span>
+          <span>Stand</span>
           <strong id="statusUpdated">—</strong>
         </div>
       </div>
     </div>
+
+    <nav class="quick-nav" aria-label="Sektionen">
+      <a href="#start">#start</a>
+      <a href="#spielmodi">#spielmodi</a>
+      <a href="#labymod">#labymod</a>
+      <a href="#citys">#citys</a>
+    </nav>
   </header>
 
   <main>
-    <section class="hero section-pad">
+    <section class="hero section-pad" id="start">
       <div class="hero-content reveal">
+        <a class="section-anchor" href="#start">#start</a>
         <div class="hero-badge">
           <span class="mini-block" aria-hidden="true"></span>
           Minecraft-Netzwerk
         </div>
-        <h1>nilsserver.net</h1>
-        <p class="hero-subtitle">Ein klar strukturiertes Minecraft-Netzwerk mit mehreren Spielbereichen, blockiger UI und direktem Live-Status.</p>
+        <h1>NilsServer.net</h1>
+        <p class="hero-subtitle">Ein Minecraft-Netzwerk mit mehreren Spielbereichen, blockiger UI und klarer Serveranzeige.</p>
         <div class="hero-actions" aria-label="Hauptaktionen">
           <button class="btn btn-primary copy-address" data-copy="nilsserver.net" type="button">
             Serveradresse kopieren
@@ -67,7 +75,7 @@
 
       <div class="hero-card reveal delay-1" aria-label="Server-Vorschau">
         <div class="hero-logo-frame">
-          <img src="assets/brand/logo.png" alt="nilsserver.net Logo" class="hero-logo" width="256" height="512" />
+          <img src="assets/brand/logo.png" alt="NilsServer.net Logo" class="hero-logo" width="256" height="512" />
         </div>
         <div class="server-card-lines" aria-hidden="true">
           <span></span><span></span><span></span>
@@ -77,15 +85,17 @@
 
     <section class="section-pad modes-section" id="spielmodi">
       <div class="section-head reveal">
+        <a class="section-anchor" href="#spielmodi">#spielmodi</a>
         <span class="eyebrow">Spielbereiche</span>
-        <h2>Modi auf nilsserver.net</h2>
-        <p>Jeder Bereich ist als eigene Minecraft-inspirierte Karte aufgebaut. Bildflächen sind vorbereitet und können später durch echte Screenshots ersetzt werden.</p>
+        <h2>Modi auf NilsServer.net</h2>
+        <p>Die Bildflächen nutzen Dateien aus <code>assets/pngs/</code>. Fehlt eine Datei, wird automatisch ein Minecraft-artiger Platzhalter angezeigt.</p>
       </div>
 
       <div class="mode-grid">
         <article class="mode-card reveal">
-          <div class="mode-media media-void" role="img" aria-label="VoidSMP Bildplatzhalter im Minecraft-Stil">
-            <span class="media-label">Bildplatzhalter</span>
+          <div class="mode-media media-void" role="img" aria-label="VoidSMP Bild">
+            <img src="assets/pngs/voidsmp.png" alt="VoidSMP" class="mode-image" loading="lazy" />
+            <span class="media-label">VoidSMP</span>
           </div>
           <div class="mode-body">
             <img src="assets/icons/voidsmp.svg" alt="" class="mode-icon" />
@@ -97,8 +107,9 @@
         </article>
 
         <article class="mode-card reveal delay-1">
-          <div class="mode-media media-citybuild" role="img" aria-label="CityBuild Bildplatzhalter im Minecraft-Stil">
-            <span class="media-label">Bildplatzhalter</span>
+          <div class="mode-media media-citybuild" role="img" aria-label="CityBuild Bild">
+            <img src="assets/pngs/citybuild.png" alt="CityBuild" class="mode-image" loading="lazy" />
+            <span class="media-label">CityBuild</span>
           </div>
           <div class="mode-body">
             <img src="assets/icons/citybuild.svg" alt="" class="mode-icon" />
@@ -110,8 +121,9 @@
         </article>
 
         <article class="mode-card reveal delay-2">
-          <div class="mode-media media-freebuild" role="img" aria-label="FreeBuild Bildplatzhalter im Minecraft-Stil">
-            <span class="media-label">Bildplatzhalter</span>
+          <div class="mode-media media-freebuild" role="img" aria-label="FreeBuild Bild">
+            <img src="assets/pngs/freebuild.png" alt="FreeBuild" class="mode-image" loading="lazy" />
+            <span class="media-label">FreeBuild</span>
           </div>
           <div class="mode-body">
             <img src="assets/icons/freebuild.svg" alt="" class="mode-icon" />
@@ -123,8 +135,9 @@
         </article>
 
         <article class="mode-card reveal">
-          <div class="mode-media media-duels" role="img" aria-label="Duels Bildplatzhalter im Minecraft-Stil">
-            <span class="media-label">Bildplatzhalter</span>
+          <div class="mode-media media-duels" role="img" aria-label="Duels Bild">
+            <img src="assets/pngs/duels.png" alt="Duels" class="mode-image" loading="lazy" />
+            <span class="media-label">Duels</span>
           </div>
           <div class="mode-body">
             <img src="assets/icons/duels.svg" alt="" class="mode-icon" />
@@ -136,8 +149,9 @@
         </article>
 
         <article class="mode-card reveal delay-1">
-          <div class="mode-media media-smp" role="img" aria-label="NilsSMP Bildplatzhalter im Minecraft-Stil">
-            <span class="media-label">Bildplatzhalter</span>
+          <div class="mode-media media-smp" role="img" aria-label="NilsSMP Bild">
+            <img src="assets/pngs/nilssmp.png" alt="NilsSMP" class="mode-image" loading="lazy" />
+            <span class="media-label">NilsSMP</span>
           </div>
           <div class="mode-body">
             <img src="assets/icons/nilssmp.svg" alt="" class="mode-icon" />
@@ -150,7 +164,8 @@
 
         <article class="mode-card mode-card-soon reveal delay-2">
           <div class="soon-ribbon">In Entwicklung</div>
-          <div class="mode-media media-citys" role="img" aria-label="Citys Bildplatzhalter im Minecraft-Stil">
+          <div class="mode-media media-citys" role="img" aria-label="Citys Bild">
+            <img src="assets/pngs/citys.png" alt="Citys" class="mode-image" loading="lazy" />
             <span class="media-label">Kommt bald</span>
           </div>
           <div class="mode-body">
@@ -167,9 +182,10 @@
     <section class="section-pad laby-section" id="labymod">
       <div class="laby-panel reveal">
         <div class="laby-copy">
+          <a class="section-anchor" href="#labymod">#labymod</a>
           <span class="eyebrow">Empfohlen</span>
           <h2>LabyMod & Voice Chat</h2>
-          <p>Für nilsserver.net wird die Nutzung von LabyMod empfohlen. Besonders empfohlen ist Voice Chat über LabyMod.</p>
+          <p>Für NilsServer.net wird die Nutzung von LabyMod empfohlen. Besonders empfohlen ist Voice Chat über LabyMod.</p>
           <p>Simple Voice Chat wird ebenfalls unterstützt.</p>
         </div>
         <div class="laby-cards" aria-label="LabyMod Hinweise">
@@ -192,10 +208,11 @@
       </div>
     </section>
 
-    <section class="section-pad upcoming-section" id="kommend">
+    <section class="section-pad upcoming-section" id="citys">
       <div class="upcoming-card reveal">
         <img src="assets/icons/citys.svg" alt="" class="upcoming-icon" />
         <div>
+          <a class="section-anchor" href="#citys">#citys</a>
           <span class="eyebrow">Kommende Inhalte</span>
           <h2>Citys</h2>
           <p>Citys ist als kommender RP-Server vorgesehen und derzeit als „kommt bald“ gekennzeichnet.</p>
@@ -206,7 +223,7 @@
 
   <footer class="footer">
     <div>
-      <strong>nilsserver.net</strong>
+      <strong>NilsServer.net</strong>
       <span>Minecraft-Netzwerk</span>
     </div>
     <button class="footer-copy copy-address" data-copy="nilsserver.net" type="button">Adresse kopieren</button>
@@ -215,7 +232,7 @@
   <div class="copy-toast" id="copyToast" role="status" aria-live="polite">Serveradresse kopiert</div>
 
   <noscript>
-    <div class="noscript">JavaScript ist deaktiviert. Der Live-Status kann ohne JavaScript nicht im Browser aktualisiert werden.</div>
+    <div class="noscript">JavaScript ist deaktiviert. Die Serverdaten können ohne JavaScript nicht aktualisiert werden.</div>
   </noscript>
 
   <script src="config.js"></script>

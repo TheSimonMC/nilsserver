@@ -1,10 +1,21 @@
-const STATUS_URL = window.NILSSERVER_STATUS_API || "/api/status";
-const REFRESH_MS = 30000;
+const DEFAULT_CONFIG = {
+  address: "nilsserver.net",
+  statusSource: "status.json",
+  refreshMs: 30000,
+  statusLabel: "Serverdaten",
+  fallbackStatus: null,
+};
+
+const CONFIG = {
+  ...DEFAULT_CONFIG,
+  ...(window.NILSSERVER_CONFIG || {}),
+};
 
 const statusBar = document.querySelector("#serverStatus");
 const statusText = document.querySelector("#statusText");
 const playerCount = document.querySelector("#playerCount");
 const statusUpdated = document.querySelector("#statusUpdated");
+const statusSourceLabel = document.querySelector("#statusSourceLabel");
 const toast = document.querySelector("#copyToast");
 
 let statusTimer = null;
@@ -17,62 +28,106 @@ function setStatusState(state, message, players, updatedLabel) {
   statusUpdated.textContent = updatedLabel;
 }
 
-function formatPlayers(data) {
-  const online = data?.players?.online;
-  const max = data?.players?.max;
+function toNumber(value) {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && value.trim() !== "" && Number.isFinite(Number(value))) return Number(value);
+  return null;
+}
 
-  if (typeof online === "number" && typeof max === "number") return `${online} / ${max}`;
-  if (typeof online === "number") return `${online} / —`;
-  if (typeof max === "number") return `— / ${max}`;
+function getPlayerNumbers(data) {
+  const online = toNumber(data?.players?.online ?? data?.onlinePlayers ?? data?.playerCount ?? data?.playersOnline);
+  const max = toNumber(data?.players?.max ?? data?.maxPlayers ?? data?.playerMax ?? data?.slots);
+  return { online, max };
+}
+
+function formatPlayers(data) {
+  const { online, max } = getPlayerNumbers(data);
+
+  if (online !== null && max !== null) return `${online} / ${max}`;
+  if (online !== null) return `${online} / —`;
+  if (max !== null) return `— / ${max}`;
   return "— / —";
 }
 
-function formatTime(iso) {
-  if (!iso) return "—";
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "—";
-  return date.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+function formatTime(value) {
+  if (!value) return "—";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+
+  return date.toLocaleTimeString("de-DE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+}
+
+function renderStatus(data) {
+  if (!data || typeof data !== "object") {
+    setStatusState("error", "Daten fehlen", "— / —", "—");
+    return;
+  }
+
+  const players = formatPlayers(data);
+  const updated = formatTime(data.updatedAt || data.checkedAt || data.lastUpdated || data.time);
+  const { online, max } = getPlayerNumbers(data);
+  const hasPlayers = online !== null || max !== null;
+
+  if (data.online === true) {
+    setStatusState("online", "Online", players, updated);
+    return;
+  }
+
+  if (data.online === false) {
+    setStatusState("offline", "Offline", hasPlayers ? players : "— / —", updated);
+    return;
+  }
+
+  if (hasPlayers) {
+    setStatusState("partial", "Spielerdaten", players, updated);
+    return;
+  }
+
+  setStatusState("error", "Nicht gesetzt", "— / —", updated);
+}
+
+async function readStatusFile() {
+  const source = CONFIG.statusSource;
+
+  if (!source) {
+    return CONFIG.fallbackStatus || window.NILSSERVER_STATUS || null;
+  }
+
+  const response = await fetch(`${source}${source.includes("?") ? "&" : "?"}t=${Date.now()}`, {
+    cache: "no-store",
+    headers: { Accept: "application/json" },
+  });
+
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
 }
 
 async function loadStatus() {
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), 7000);
-
   try {
-    const response = await fetch(STATUS_URL, {
-      cache: "no-store",
-      headers: { Accept: "application/json" },
-      signal: controller.signal,
-    });
-
-    if (!response.ok) {
-      if (response.status === 404 && STATUS_URL === "/api/status") {
-        setStatusState("error", "Backend fehlt", "— / —", "—");
-        return;
-      }
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    const data = await response.json();
-    const updated = formatTime(data.checkedAt);
-
-    if (data.online === true) {
-      setStatusState("online", "Online", formatPlayers(data), updated);
+    const data = await readStatusFile();
+    renderStatus(data);
+  } catch (error) {
+    const fallback = CONFIG.fallbackStatus || window.NILSSERVER_STATUS || null;
+    if (fallback) {
+      renderStatus(fallback);
       return;
     }
 
-    setStatusState("offline", "Nicht erreichbar", "— / —", updated);
-  } catch (error) {
-    setStatusState("error", "Statusfehler", "— / —", "—");
-  } finally {
-    window.clearTimeout(timeout);
+    setStatusState("error", "Daten nicht erreichbar", "— / —", "—");
   }
 }
 
 function startStatusLoop() {
-  setStatusState("loading", "Lädt Serverstatus …", "— / —", "—");
+  statusSourceLabel.textContent = CONFIG.statusLabel || "Serverdaten";
+  setStatusState("loading", "Lädt Serverdaten …", "— / —", "—");
   loadStatus();
-  statusTimer = window.setInterval(loadStatus, REFRESH_MS);
+
+  statusTimer = window.setInterval(loadStatus, Math.max(10000, Number(CONFIG.refreshMs) || 30000));
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) loadStatus();
   });
@@ -81,7 +136,7 @@ function startStatusLoop() {
 function setupCopyButtons() {
   document.querySelectorAll(".copy-address").forEach((button) => {
     button.addEventListener("click", async () => {
-      const value = button.dataset.copy || "nilsserver.net";
+      const value = button.dataset.copy || CONFIG.address || "nilsserver.net";
       try {
         await navigator.clipboard.writeText(value);
       } catch {
@@ -97,6 +152,25 @@ function setupCopyButtons() {
       window.clearTimeout(toastTimer);
       toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 1600);
     });
+  });
+}
+
+function setupModeImages() {
+  document.querySelectorAll(".mode-image").forEach((image) => {
+    const media = image.closest(".mode-media");
+
+    image.addEventListener("load", () => {
+      media.classList.add("has-image");
+    });
+
+    image.addEventListener("error", () => {
+      image.remove();
+      media.classList.add("media-fallback");
+    });
+
+    if (image.complete && image.naturalWidth > 0) {
+      media.classList.add("has-image");
+    }
   });
 }
 
@@ -158,5 +232,6 @@ function setupPixelParticles() {
 
 startStatusLoop();
 setupCopyButtons();
+setupModeImages();
 setupReveals();
 setupPixelParticles();
