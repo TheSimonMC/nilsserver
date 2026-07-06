@@ -1,4 +1,4 @@
-const STATUS_URL = "/api/status";
+const STATUS_URL = window.NILSSERVER_STATUS_API || "/api/status";
 const REFRESH_MS = 30000;
 
 const statusBar = document.querySelector("#serverStatus");
@@ -45,7 +45,13 @@ async function loadStatus() {
       signal: controller.signal,
     });
 
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      if (response.status === 404 && STATUS_URL === "/api/status") {
+        setStatusState("error", "Backend fehlt", "— / —", "—");
+        return;
+      }
+      throw new Error(`HTTP ${response.status}`);
+    }
 
     const data = await response.json();
     const updated = formatTime(data.checkedAt);
