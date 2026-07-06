@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="nilsserver.net ist ein Minecraft-Netzwerk mit Live-Serverstatus, Spielmodi und LabyMod-/Voice-Chat-Empfehlung." />
+  <title>nilsserver.net — Minecraft-Netzwerk</title>
+  <link rel="icon" type="image/png" href="/assets/brand/icon.png" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true">
+    <div class="pixel-grid"></div>
+    <span class="float-cube cube-a"></span>
+    <span class="float-cube cube-b"></span>
+    <span class="float-cube cube-c"></span>
+    <span class="float-cube cube-d"></span>
+  </div>
+
+  <header class="status-shell" aria-label="Live-Serverstatus">
+    <div class="status-bar" id="serverStatus" data-state="loading">
+      <div class="status-brand">
+        <img src="/assets/brand/icon.png" alt="nilsserver.net Logo" class="status-logo" width="42" height="42" />
+        <div>
+          <span class="eyebrow">Live-Daten</span>
+          <strong>Minecraft-Serverstatus</strong>
+        </div>
+      </div>
+
+      <div class="status-data" aria-live="polite">
+        <div class="status-pill">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="statusText">Lädt Serverstatus …</span>
+        </div>
+        <div class="status-metric">
+          <span>Spieler</span>
+          <strong id="playerCount">— / —</strong>
+        </div>
+        <div class="status-address">
+          <span>Adresse</span>
+          <button class="copy-address" data-copy="nilsserver.net" type="button" aria-label="Serveradresse nilsserver.net kopieren">nilsserver.net</button>
+        </div>
+        <div class="status-updated">
+          <span>Aktualisiert</span>
+          <strong id="statusUpdated">—</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section-pad">
+      <div class="hero-content reveal">
+        <div class="hero-badge">
+          <span class="mini-block" aria-hidden="true"></span>
+          Minecraft-Netzwerk
+        </div>
+        <h1>nilsserver.net</h1>
+        <p class="hero-subtitle">Ein klar strukturiertes Minecraft-Netzwerk mit mehreren Spielbereichen, blockiger UI und direktem Live-Status.</p>
+        <div class="hero-actions" aria-label="Hauptaktionen">
+          <button class="btn btn-primary copy-address" data-copy="nilsserver.net" type="button">
+            Serveradresse kopieren
+          </button>
+          <a class="btn btn-secondary" href="#spielmodi">Spielmodi ansehen</a>
+        </div>
+      </div>
+
+      <div class="hero-card reveal delay-1" aria-label="Server-Vorschau">
+        <div class="hero-logo-frame">
+          <img src="/assets/brand/logo.png" alt="nilsserver.net Logo" class="hero-logo" width="256" height="512" />
+        </div>
+        <div class="server-card-lines" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad modes-section" id="spielmodi">
+      <div class="section-head reveal">
+        <span class="eyebrow">Spielbereiche</span>
+        <h2>Modi auf nilsserver.net</h2>
+        <p>Jeder Bereich ist als eigene Minecraft-inspirierte Karte aufgebaut. Bildflächen sind vorbereitet und können später durch echte Screenshots ersetzt werden.</p>
+      </div>
+
+      <div class="mode-grid">
+        <article class="mode-card reveal">
+          <div class="mode-media media-void" role="img" aria-label="VoidSMP Bildplatzhalter im Minecraft-Stil">
+            <span class="media-label">Bildplatzhalter</span>
+          </div>
+          <div class="mode-body">
+            <img src="/assets/icons/voidsmp.svg" alt="" class="mode-icon" />
+            <div>
+              <h3>VoidSMP</h3>
+              <p>Ein SMP-Modus auf einer Void-Map.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="mode-card reveal delay-1">
+          <div class="mode-media media-citybuild" role="img" aria-label="CityBuild Bildplatzhalter im Minecraft-Stil">
+            <span class="media-label">Bildplatzhalter</span>
+          </div>
+          <div class="mode-body">
+            <img src="/assets/icons/citybuild.svg" alt="" class="mode-icon" />
+            <div>
+              <h3>CityBuild</h3>
+              <p>Ein CityBuild-Modus.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="mode-card reveal delay-2">
+          <div class="mode-media media-freebuild" role="img" aria-label="FreeBuild Bildplatzhalter im Minecraft-Stil">
+            <span class="media-label">Bildplatzhalter</span>
+          </div>
+          <div class="mode-body">
+            <img src="/assets/icons/freebuild.svg" alt="" class="mode-icon" />
+            <div>
+              <h3>FreeBuild</h3>
+              <p>Ein FreeBuild-Modus.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="mode-card reveal">
+          <div class="mode-media media-duels" role="img" aria-label="Duels Bildplatzhalter im Minecraft-Stil">
+            <span class="media-label">Bildplatzhalter</span>
+          </div>
+          <div class="mode-body">
+            <img src="/assets/icons/duels.svg" alt="" class="mode-icon" />
+            <div>
+              <h3>Duels</h3>
+              <p>Ein Duels-Modus.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="mode-card reveal delay-1">
+          <div class="mode-media media-smp" role="img" aria-label="NilsSMP Bildplatzhalter im Minecraft-Stil">
+            <span class="media-label">Bildplatzhalter</span>
+          </div>
+          <div class="mode-body">
+            <img src="/assets/icons/nilssmp.svg" alt="" class="mode-icon" />
+            <div>
+              <h3>NilsSMP</h3>
+              <p>Ein normaler SMP-Modus.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="mode-card mode-card-soon reveal delay-2">
+          <div class="soon-ribbon">In Entwicklung</div>
+          <div class="mode-media media-citys" role="img" aria-label="Citys Bildplatzhalter im Minecraft-Stil">
+            <span class="media-label">Kommt bald</span>
+          </div>
+          <div class="mode-body">
+            <img src="/assets/icons/citys.svg" alt="" class="mode-icon" />
+            <div>
+              <h3>Citys</h3>
+              <p>Ein kommender RP-Server. Kommt bald.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-pad laby-section" id="labymod">
+      <div class="laby-panel reveal">
+        <div class="laby-copy">
+          <span class="eyebrow">Empfohlen</span>
+          <h2>LabyMod & Voice Chat</h2>
+          <p>Für nilsserver.net wird die Nutzung von LabyMod empfohlen. Besonders empfohlen ist Voice Chat über LabyMod.</p>
+          <p>Simple Voice Chat wird ebenfalls unterstützt.</p>
+        </div>
+        <div class="laby-cards" aria-label="LabyMod Hinweise">
+          <div class="mini-card">
+            <span class="mini-icon block-icon" aria-hidden="true"></span>
+            <strong>LabyMod empfohlen</strong>
+            <p>Empfohlene Nutzung für das Netzwerk.</p>
+          </div>
+          <div class="mini-card">
+            <span class="mini-icon voice-icon" aria-hidden="true"></span>
+            <strong>Voice Chat empfohlen</strong>
+            <p>Besonders über LabyMod empfohlen.</p>
+          </div>
+          <div class="mini-card">
+            <span class="mini-icon simple-icon" aria-hidden="true"></span>
+            <strong>Simple Voice Chat</strong>
+            <p>Wird ebenfalls unterstützt.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad upcoming-section" id="kommend">
+      <div class="upcoming-card reveal">
+        <img src="/assets/icons/citys.svg" alt="" class="upcoming-icon" />
+        <div>
+          <span class="eyebrow">Kommende Inhalte</span>
+          <h2>Citys</h2>
+          <p>Citys ist als kommender RP-Server vorgesehen und derzeit als „kommt bald“ gekennzeichnet.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <strong>nilsserver.net</strong>
+      <span>Minecraft-Netzwerk</span>
+    </div>
+    <button class="footer-copy copy-address" data-copy="nilsserver.net" type="button">Adresse kopieren</button>
+  </footer>
+
+  <div class="copy-toast" id="copyToast" role="status" aria-live="polite">Serveradresse kopiert</div>
+
+  <noscript>
+    <div class="noscript">JavaScript ist deaktiviert. Der Live-Status kann ohne JavaScript nicht im Browser aktualisiert werden.</div>
+  </noscript>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
