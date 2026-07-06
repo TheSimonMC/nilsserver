@@ -401,6 +401,13 @@ p {
   background: linear-gradient(180deg, rgba(125, 36, 4, 0.65), rgba(22, 8, 1, 0.92));
 }
 
+.btn-discord {
+  color: #fff4cf;
+  background:
+    linear-gradient(180deg, rgba(253, 175, 18, 0.24), rgba(125, 36, 4, 0.82)),
+    repeating-linear-gradient(90deg, rgba(254, 228, 78, 0.1) 0 8px, transparent 8px 16px);
+}
+
 .hero-card {
   position: relative;
   justify-self: center;
@@ -742,10 +749,29 @@ p {
   margin-bottom: 4px;
 }
 
-.footer-copy {
+.footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.footer-copy,
+.footer-discord {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
   padding: 10px 12px;
+  color: var(--shine);
   border: 2px solid rgba(253, 175, 18, 0.32);
   background: rgba(125, 36, 4, 0.35);
+  font-weight: 900;
+}
+
+.footer-discord:hover {
+  color: #fff8d7;
+  text-shadow: 0 0 16px rgba(254, 228, 78, 0.65);
 }
 
 .copy-toast {
@@ -840,7 +866,8 @@ p {
 
   .status-data,
   .hero-actions,
-  .footer {
+  .footer,
+  .footer-actions {
     flex-direction: column;
     align-items: stretch;
   }
@@ -849,7 +876,9 @@ p {
   .status-metric,
   .status-address,
   .status-updated,
-  .btn {
+  .btn,
+  .footer-copy,
+  .footer-discord {
     width: 100%;
   }
 
