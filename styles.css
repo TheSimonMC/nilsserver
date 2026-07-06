@@ -997,3 +997,98 @@ p {
     justify-content: center;
   }
 }
+
+/* v4: keine sichtbaren #-Buttons, direkte Modus-Bilder, GitHub-Actions-Status */
+.quick-nav,
+.section-anchor {
+  display: none !important;
+}
+
+.status-shell {
+  padding-bottom: 12px;
+}
+
+.mode-media {
+  isolation: isolate;
+}
+
+.mode-media::before {
+  z-index: 0;
+}
+
+.mode-media::after {
+  z-index: 2;
+}
+
+.mode-image {
+  z-index: 1;
+}
+
+.media-label {
+  z-index: 3;
+}
+
+.mode-media.has-image::before {
+  opacity: 0;
+}
+
+.mode-media.has-image::after {
+  background:
+    linear-gradient(180deg, rgba(5, 2, 0, 0.04), rgba(5, 2, 0, 0.72)),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 2px, transparent 2px 8px);
+}
+
+.mode-media.media-fallback::before {
+  opacity: 1;
+  background-image:
+    var(--fallback-image),
+    linear-gradient(45deg, rgba(254, 228, 78, 0.13) 25%, transparent 25%, transparent 75%, rgba(254, 228, 78, 0.13) 75%),
+    linear-gradient(135deg, #351101, #f48b08 52%, #fee44e);
+  background-size: cover, 38px 38px, cover;
+  background-position: center;
+}
+
+.mode-media.media-fallback::after {
+  background:
+    linear-gradient(180deg, rgba(5, 2, 0, 0.08), rgba(5, 2, 0, 0.68)),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 2px, transparent 2px 8px);
+}
+
+.laby-panel {
+  background:
+    linear-gradient(135deg, rgba(10, 86, 165, 0.34), rgba(5, 2, 0, 0.9) 46%, rgba(125, 36, 4, 0.58)),
+    repeating-linear-gradient(45deg, rgba(254, 228, 78, 0.055) 0 8px, transparent 8px 16px);
+}
+
+.brand-mini-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.brand-logo {
+  width: 100%;
+  height: 72px;
+  object-fit: contain;
+  object-position: left center;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.labymod-wolf,
+.simple-voice-logo {
+  width: 72px;
+  object-position: center;
+}
+
+.simple-voice-logo {
+  image-rendering: auto;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.brand-mini-card:hover .brand-logo {
+  transform: translateY(-2px);
+  transition: transform 180ms ease;
+}

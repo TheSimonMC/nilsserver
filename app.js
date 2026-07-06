@@ -2,7 +2,7 @@ const DEFAULT_CONFIG = {
   address: "nilsserver.net",
   statusSource: "status.json",
   refreshMs: 30000,
-  statusLabel: "Serverdaten",
+  statusLabel: "Direkt vom Server",
   fallbackStatus: null,
 };
 
@@ -18,7 +18,6 @@ const statusUpdated = document.querySelector("#statusUpdated");
 const statusSourceLabel = document.querySelector("#statusSourceLabel");
 const toast = document.querySelector("#copyToast");
 
-let statusTimer = null;
 let toastTimer = null;
 
 function setStatusState(state, message, players, updatedLabel) {
@@ -88,10 +87,10 @@ function renderStatus(data) {
     return;
   }
 
-  setStatusState("error", "Nicht gesetzt", "— / —", updated);
+  setStatusState("error", "Noch nicht aktualisiert", "— / —", updated);
 }
 
-async function readStatusFile() {
+async function fetchStatus() {
   const source = CONFIG.statusSource;
 
   if (!source) {
@@ -109,9 +108,9 @@ async function readStatusFile() {
 
 async function loadStatus() {
   try {
-    const data = await readStatusFile();
+    const data = await fetchStatus();
     renderStatus(data);
-  } catch (error) {
+  } catch {
     const fallback = CONFIG.fallbackStatus || window.NILSSERVER_STATUS || null;
     if (fallback) {
       renderStatus(fallback);
@@ -123,11 +122,11 @@ async function loadStatus() {
 }
 
 function startStatusLoop() {
-  statusSourceLabel.textContent = CONFIG.statusLabel || "Serverdaten";
+  statusSourceLabel.textContent = CONFIG.statusLabel || "Direkt vom Server";
   setStatusState("loading", "Lädt Serverdaten …", "— / —", "—");
   loadStatus();
 
-  statusTimer = window.setInterval(loadStatus, Math.max(10000, Number(CONFIG.refreshMs) || 30000));
+  window.setInterval(loadStatus, Math.max(10000, Number(CONFIG.refreshMs) || 30000));
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) loadStatus();
   });
@@ -155,21 +154,41 @@ function setupCopyButtons() {
   });
 }
 
+function setModeFallback(media, image) {
+  if (image) image.remove();
+
+  const fallback = media.dataset.fallback;
+  if (fallback) {
+    media.style.setProperty("--fallback-image", `url("${fallback}")`);
+  }
+
+  media.classList.remove("has-image");
+  media.classList.add("media-fallback");
+}
+
 function setupModeImages() {
-  document.querySelectorAll(".mode-image").forEach((image) => {
-    const media = image.closest(".mode-media");
+  document.querySelectorAll(".mode-media").forEach((media) => {
+    const image = media.querySelector(".mode-image");
+
+    if (!image) {
+      setModeFallback(media, null);
+      return;
+    }
 
     image.addEventListener("load", () => {
+      media.classList.remove("media-fallback");
       media.classList.add("has-image");
     });
 
-    image.addEventListener("error", () => {
-      image.remove();
-      media.classList.add("media-fallback");
-    });
+    image.addEventListener("error", () => setModeFallback(media, image));
 
-    if (image.complete && image.naturalWidth > 0) {
-      media.classList.add("has-image");
+    if (image.complete) {
+      if (image.naturalWidth > 0) {
+        media.classList.remove("media-fallback");
+        media.classList.add("has-image");
+      } else {
+        setModeFallback(media, image);
+      }
     }
   });
 }

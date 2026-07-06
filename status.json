@@ -4,5 +4,7 @@
     "online": null,
     "max": null
   },
-  "updatedAt": null
+  "address": "nilsserver.net",
+  "updatedAt": null,
+  "source": "github-actions-minecraft-ping"
 }
