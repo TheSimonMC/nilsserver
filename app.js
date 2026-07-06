@@ -2,7 +2,7 @@ const DEFAULT_CONFIG = {
   address: "nilsserver.net",
   statusSource: "status.json",
   refreshMs: 30000,
-  statusLabel: "Direkt vom Server",
+  statusLabel: "Serverstatus",
   fallbackStatus: null,
 };
 
@@ -67,6 +67,11 @@ function renderStatus(data) {
     return;
   }
 
+  if (data.pending === true) {
+    setStatusState("loading", "Warte auf Update", "— / —", "—");
+    return;
+  }
+
   const players = formatPlayers(data);
   const updated = formatTime(data.updatedAt || data.checkedAt || data.lastUpdated || data.time);
   const { online, max } = getPlayerNumbers(data);
@@ -87,7 +92,7 @@ function renderStatus(data) {
     return;
   }
 
-  setStatusState("error", "Noch nicht aktualisiert", "— / —", updated);
+  setStatusState("loading", "Warte auf Update", "— / —", updated);
 }
 
 async function fetchStatus() {
@@ -117,12 +122,12 @@ async function loadStatus() {
       return;
     }
 
-    setStatusState("error", "Daten nicht erreichbar", "— / —", "—");
+    setStatusState("error", "Status nicht erreichbar", "— / —", "—");
   }
 }
 
 function startStatusLoop() {
-  statusSourceLabel.textContent = CONFIG.statusLabel || "Direkt vom Server";
+  statusSourceLabel.textContent = CONFIG.statusLabel || "Serverstatus";
   setStatusState("loading", "Lädt Serverdaten …", "— / —", "—");
   loadStatus();
 

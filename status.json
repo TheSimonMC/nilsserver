@@ -1,4 +1,5 @@
 {
+  "pending": true,
   "online": null,
   "players": {
     "online": null,
@@ -6,5 +7,5 @@
   },
   "address": "nilsserver.net",
   "updatedAt": null,
-  "source": "github-actions-minecraft-ping"
+  "source": "pending-github-actions-update"
 }
